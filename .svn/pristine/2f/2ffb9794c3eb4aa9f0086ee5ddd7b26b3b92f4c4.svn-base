@@ -1,0 +1,103 @@
+//import java.awt.List;
+import java.util.ArrayList;
+
+
+/*
+ * TCSS305 - Spring 2013
+ * Assignment 2 - Shopping Cart - Crystal Miraflor
+ * 
+ */
+
+/**
+ * An object representation of a customer's
+ * shopping cart. Store information about the 
+ * customer's overall purchase.
+ * 
+ * @author Crystal Miraflor (mirafcry@uw.edu)
+ * @version ver. 1.00
+ *
+ */
+public class ShoppingCart {
+  
+  //fields
+  
+  /**
+   * The price that the shopping cart total must be greater 
+   * than for a membership discount.
+   */
+  private static final double MINIMUM_TOTAL = 20.00; 
+  
+  /**
+   * The membership discount.
+   */
+  private static final double MEMBERSHIP_DISCOUNT = 0.9;
+  
+  /**
+   * The list for the ShoppingCart.
+   */
+  private final ArrayList<ItemOrder> my_shoppingcart;
+  
+  /**
+   * Membership of customer.
+   */
+  private boolean my_membership;
+  
+  /**
+   * Creates an empty shopping cart.
+   */
+  public ShoppingCart() {
+    my_shoppingcart = new ArrayList<ItemOrder>();
+    my_membership = false;
+    
+  }
+  
+  /**
+   * Adds an order to the shopping cart, replacing
+   * any previous order for an equivalent item with 
+   * the new order.
+   * 
+   * @param the_order The customer order
+   * 
+   */
+  public void add(final ItemOrder the_order) {
+    //checks for any equivalent orders and replaces it.
+    //implement this. 
+    for (int i = 0; i < my_shoppingcart.size(); i++) {
+      if (my_shoppingcart.get(i).equals(the_order)) {
+        my_shoppingcart.set(i, the_order);
+      }
+    }
+    my_shoppingcart.add(the_order);
+    
+  }
+  
+  /**
+   * Sets whether or not the customer for this
+   * shopping cart has a store.
+   * 
+   * @param the_value ???
+   * 
+   */
+  public void setMembership(final boolean the_value) {
+    if (the_value) {
+      my_membership = true;
+    }
+  }
+  
+  /**
+   * Calculate the overall total of the entire cart.
+   * 
+   * @return The total price of the cart.
+   */
+  public double calculateTotal() {
+    double total = 0.0;
+    for (int i = 0; i < my_shoppingcart.size(); i++) {
+      total += my_shoppingcart.get(i).calculatePrice();
+    }
+    if (my_membership && total > MINIMUM_TOTAL) {
+      total *= MEMBERSHIP_DISCOUNT;
+    }
+    return total;
+  }
+
+}

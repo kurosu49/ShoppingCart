@@ -1,0 +1,93 @@
+/*
+ * TCSS305 - Spring 2013
+ * Assignment 2 - ShoppingCart - Crystal Miraflor
+ * 
+ */
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+/**
+ * 
+ * @author Crystal Miraflor (mirafcry@uw.edu)
+ * @version ver. 1.00
+ *
+ */
+public class ShoppingCartTest {
+  
+  //fields
+  /**
+   * Tolerance for doubles.
+   */
+  private static final double TOLERANCE = .00001;
+
+  /**
+   * The shopping cart.
+   */
+  private ShoppingCart my_shoppingcart;
+
+  /**
+   * Initialization and setup.
+   */
+  @Before
+  public void setUp() {
+    final ItemOrder[] itemorders = new ItemOrder[] {
+      new ItemOrder(new Item("BioShock 2", 60.00), 2),
+      new ItemOrder(new Item("Cool Pens", 1.25, 5, 3.75), 7),
+      new ItemOrder(new Item("Candy", 1.00, 3, 2.50), 2)
+    };
+    
+    my_shoppingcart = new ShoppingCart();
+    for (int i = 0; i < itemorders.length; i++) {
+      my_shoppingcart.add(itemorders[i]);
+    }
+  }
+
+
+  /**
+   * Tests if the total calculation for a shopping cart
+   * is correct when an old Item Order is replaced by a new one.
+   */
+  @Test
+  public void testAddAndCalculate() {
+    my_shoppingcart.setMembership(false);
+    assertEquals(128.25, my_shoppingcart.calculateTotal(), TOLERANCE);
+    my_shoppingcart.add(new ItemOrder(new Item("BioShock 2", 60.00), 0));
+    assertEquals(8.25, my_shoppingcart.calculateTotal(), TOLERANCE);
+  }
+
+  /**
+   * Tests if the total calculation for a shopping cart is
+   * correct if they have no membership. (No discount).
+   */
+  @Test
+  public void testCalculateTotalMembershipFalse() {
+    my_shoppingcart.setMembership(false);
+    assertEquals(128.25, my_shoppingcart.calculateTotal(), TOLERANCE);
+  }
+  
+  /**
+   * Tests if the total calculation for a shopping cart is
+   * correct if they have a membership. (10% off discount).
+   */
+  @Test
+  public void testCalculateTotalMembershipTrue() {
+    my_shoppingcart.setMembership(true);
+    assertEquals(115.425, my_shoppingcart.calculateTotal(), TOLERANCE);
+  }
+  
+  /**
+   * Tests if the total calculation for a shopping cart is
+   * correct if they have a membership and the total is less
+   * than $20.00.
+   */
+  @Test
+  public void testCalculateTotalLessThanMin() {
+    my_shoppingcart.add(new ItemOrder(new Item("BioShock 2", 60.00), 0));
+    my_shoppingcart.setMembership(true);
+    assertEquals(8.25, my_shoppingcart.calculateTotal(), TOLERANCE);
+    
+  }
+}

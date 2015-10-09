@@ -1,0 +1,184 @@
+/*
+ * TCSS305 - Spring 2013
+ * Assignment 2 - ShoppingCart - Crystal Miraflor
+ * 
+ */
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+/**
+ * The test for the Item class.
+ * 
+ * @author Crystal Miraflor (mirafcry@uw.edu)
+ * @version ver. 1.00
+ *
+ */
+public class ItemTest {
+  
+  //fields
+  /**
+   * Tolerance for doubles.
+   */
+  private static final double TOLERANCE = .00001;
+  
+  /**
+   * First list of items.
+   */
+  private Item[] my_item_list;
+  
+  /**
+   * Second list of items to test the equals method.
+   */
+  private Item[] my_item_comparison;
+
+  /**
+   * The setup before running the tests.
+   * Initializes the list of items.
+   */
+  @Before
+  public void setUp() {
+    my_item_list = new Item[] {
+      new Item("BioShock Infinite", 59.99),
+      new Item("RedBull", 3.00, 4, 10.00),
+      new Item("Playstation Vita Bundle", 200.00),
+      new Item("Sticky Notes", .50, 6, 1.50),
+      new Item("Game of Thrones Season 2 Blu-ray", 43.00),
+      new Item("Pre-owned PS3 game", 19.99, 2, 30.00),
+      new Item("Girls' Generation 2011 Tour CD", 65.00),
+      new Item("Girls' Generation buttons", 1.50, 9, 11.00)
+    };
+    
+    my_item_comparison = new Item[] {
+      new Item("RedBull", 3.00, 4, 10.00),
+      new Item("Sticky Notes", .50, 6, 1.50),
+      new Item("RedBull", 3.00, 4, 10.00)
+    };
+    
+  }
+
+  /**
+   * 
+   */
+  /*@Test
+  public void testHashCode() {
+    fail("Not yet implemented");
+  }*/
+  
+  /**
+   * 
+   */
+  @Test
+  public void testItemStringDoubleIntDouble() {
+    fail("Not yet implemented");
+  }
+
+  /**
+   * 
+   */
+  @Test
+  public void testItemStringDouble() {
+  }
+  
+  /**
+   * Tests if the calculations of only single-priced items
+   * are correct.
+   */
+  @Test
+  public void testCalculatePriceForSingleItems() {
+    
+    //2 GoT Blu-ray DVDs - $86.00
+    assertEquals(86.00, my_item_list[4].calculatePriceFor(2), TOLERANCE);
+    
+    //1 BioShock - $59.99
+    assertEquals(59.99, my_item_list[0].calculatePriceFor(1), TOLERANCE);
+    
+    //5 Girls' Generation CDs - $325.00
+    assertEquals(325.00, my_item_list[6].calculatePriceFor(5), TOLERANCE);
+    
+  }
+
+  
+  /**
+   * Tests if the calculations of items ordered in bulk quantities
+   * are calculated correctly.
+   */
+  @Test
+  public void testCalculatePriceForBulkItems() {
+    
+    //14 RedBulls = $36.00
+    assertEquals(36.00, my_item_list[1].calculatePriceFor(14), TOLERANCE); 
+    
+    //29 Sticky Notes = $8.50
+    assertEquals(8.50, my_item_list[3].calculatePriceFor(29), TOLERANCE); 
+
+  }
+  
+  /**
+   * Tests if the calculation of items ordered less than the bulk quantity
+   * is correct. 
+   */
+  @Test
+  public void testCalculatePriceForLessThanBulk() {
+    
+    //2 Redbulls = $6.00
+    assertEquals(6.00, my_item_list[1].calculatePriceFor(2), TOLERANCE);
+    
+    //5 Girls' Generation buttons = 7.50
+    assertEquals(7.5, my_item_list[7].calculatePriceFor(5), TOLERANCE);
+    
+    //1 Pre-owned PS3 game = 19.99
+    assertEquals(19.99, my_item_list[5].calculatePriceFor(1), TOLERANCE);
+    
+  }
+
+  /**
+   * Tests if the String representation of single items is correct.
+   */
+  @Test
+  public void testToStringSingle() {
+    assertEquals("Item 1 toString.", "BioShock Infinite, $59.99", my_item_list[0].toString());
+  }
+  
+  /**
+   * Tests if the String representation of the item with bulk is correct.
+   */
+  @Test
+  public void testToStringBulk() {
+    assertEquals("Item 8 toString.", "Girls' Generation buttons, $1.50 (9 for $11.00)", 
+                 my_item_list[7].toString());
+  }
+
+  /**
+   * Tests whether two objects are equivalent to one another.
+   * All tests conducted here should return true.
+   */
+  @Test
+  public void testEqualsObjectTrue() {
+    //compares RedBull to RedBull (3 RedBulls)
+    assertTrue("Test 1: Returns True.", my_item_list[1].equals(my_item_comparison[0]));
+    assertTrue("Test 2: Returns True.", my_item_list[1].equals(my_item_list[1])); //reflexive
+    assertTrue("Test 3: Returns True.", my_item_list[1].equals(my_item_comparison[2]));
+    assertTrue("Test 4: Returns True", my_item_comparison[0].equals(my_item_comparison[2]));
+    
+  }
+
+  /**
+   * Tests whether two objects are equivalent to one another.
+   * All tests conducted here should return false.
+   */
+  @Test
+  public void testEqualsObjectFalse() {
+    assertFalse("Test 1: Returns False.", my_item_list[0].equals(my_item_comparison[1]));
+    assertFalse("Test 2: Returns False.", my_item_list[6].equals(my_item_list[7]));
+  }
+  
+  /**
+   * Tests the equals method compared to null.
+   */
+  @Test
+  public void testEqualsObjectNull() {
+    assertFalse("Null Test returns false.", my_item_list[4].equals(null));
+  }
+}

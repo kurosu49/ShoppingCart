@@ -1,0 +1,64 @@
+/*
+ * TCSS305 - Spring 2013
+ * Assignment 2 - Shopping Cart - Crystal Miraflor
+ * 
+ */
+
+/**
+ * An object representation of an order.
+ * Stores information about a purchase order for
+ * a particular item.
+ * 
+ * @author Crystal Miraflor (mirafcry@uw.edu)
+ * @version ver. 1.00
+ *
+ */
+public class ItemOrder {
+  
+  //fields
+  
+  /**
+   * The item being ordered.
+   */
+  private final Item my_item;
+  
+  /**
+   * The quantity for the order.
+   */
+  private final int my_quantity;
+  
+  
+  /**
+   * Creates an item order for the given quantity of
+   * the given Item. 
+   * 
+   * @param the_item  The specified item
+   * @param the_quantity  The number of items
+   * 
+   */
+  public ItemOrder(final Item the_item, final int the_quantity) {
+    my_item = the_item;
+    my_quantity = the_quantity;
+    
+  }
+  
+  /**
+   * Calculates the total cost of this order.
+   * 
+   * @return The total cost.
+   */
+  public double calculatePrice() {
+    return getItem().calculatePriceFor(my_quantity);
+  }
+  
+  /**
+   * Reference to the item of this order.
+   * 
+   * @return my_item  The item.
+   * 
+   */
+  public final Item getItem() {
+    return my_item;
+  }
+
+}
